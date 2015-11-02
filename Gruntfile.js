@@ -14,6 +14,11 @@ module.exports = function(grunt){
         cwd: './html',
         src: '*.html',
         dest: CONFIG.buildDir
+      },
+      js: {
+        files: {
+          '<%=CONFIG.buildDir%>/jquery.js': 'node_modules/jquery/dist/jquery.js',
+        }
       }
     },
     clean: [CONFIG.buildDir],
@@ -26,21 +31,31 @@ module.exports = function(grunt){
           '<%=CONFIG.buildDir%>/app.css': 'sass/app.scss'
         }
       }
+    },
+    webpack: {
+      'slider-to-label': {
+        entry: "./js/slider-to-label.js",
+        output: {
+          path: "public",
+          filename: "slider-to-label.js"
+        },
+        module: {
+          loaders: [
+          { test: "./js/", loader: 'babel-loader' }
+          ]
+        }
+      }
+    },
+    watch: {
+      options: {
+        spawn: false,
+        atBegin: true
+      },
+      js: {
+        files: ['./js/*.js'],
+        tasks: ['webpack']
+      }
     }
-    //webpack: {
-      //app: {
-        //entry: "./js/app.js",
-        //output: {
-            //path: "public",
-            //filename: "app.js"
-        //},
-        //module: {
-          //loaders: [
-              //{ test: "./js/", loader: 'babel-loader' }
-          //]
-        //}
-      //}
-    //}
   });
 
   grunt.registerTask('default', ['clean','copy','sass']);
