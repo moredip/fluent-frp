@@ -1,0 +1,22 @@
+{
+  "name": "fluent-frp",
+  "version": "0.0.1",
+  "description": "FRP examples for Fluent 2016 talk",
+  "dependencies": {
+    "bourbon": "^4.2.6",
+    "node-bourbon": "^4.2.3",
+    "node-neat": "^1.7.2",
+    "node-sass": "^3.4.1"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-sass": "^1.1.0",
+    "grunt": "^0.4.5",
+    "load-grunt-tasks": "^3.3.0",
+    "sass-loader": "^3.1.1",
+    "webpack": "^1.12.2"
+  },
+  "author": "Pete Hodgson",
+  "license": "Apache 2.0"
+}

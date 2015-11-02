@@ -1,0 +1,49 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  a {
+    text-decoration: inherit;
+    color: #444;
+  }
+  background-color: #111;
+  margin-bottom: 2rem;
+  h1 {
+    margin: 0;
+    padding: 0.2em $left-gutter;
+    color: #eee;
+    font-size: 28pt;
+  }
+}
+
+body > article {
+  margin: 50px 0;
+}
+
+.stream-visualizations {
+  h1 {
+    padding: 0.5em 0 0.5em $left-gutter;
+    background: darken($streamyBlue, 35%);
+    color: $streamyBlue;
+  }
+  margin-top: 4rem;
+  background-color: $streamyBlue;
+}
+
+section.slider {
+  @include flexy-fill;
+
+  input[type="range"] {
+    width: 100%;
+    margin: 0em 0.5em;
+  }
+
+  span.label {
+    font-size: 36pt;
+    margin: 0 0.5em;
+    min-width: 2.5em;
+    text-align: right;
+  }
+}
