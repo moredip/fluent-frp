@@ -7,7 +7,8 @@
     "jquery": "^2.1.4",
     "node-bourbon": "^4.2.3",
     "node-neat": "^1.7.2",
-    "node-sass": "^3.4.1"
+    "node-sass": "^3.4.1",
+    "rx": "^4.0.6"
   },
   "devDependencies": {
     "babel-core": "^6.0.15",

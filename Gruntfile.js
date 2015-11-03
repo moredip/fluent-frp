@@ -39,6 +39,7 @@ module.exports = function(grunt){
           path: "public",
           filename: "slider-to-label.js"
         },
+        devtool: 'source-map',
         module: {
           loaders: [
           { test: "./js/", loader: 'babel-loader' }
