@@ -1,3 +1,6 @@
+var _ = require('underscore');
+var path = require('path');
+
 module.exports = function(grunt){
 
   require('load-grunt-tasks')(grunt);
@@ -5,6 +8,10 @@ module.exports = function(grunt){
   var CONFIG = {
     buildDir: './public'
   };
+
+  var jsFilesMap = _.object( _.map( grunt.file.expand("./js/*.js"), function(jsFile){
+    return [ path.basename(jsFile), jsFile ];
+  }));
 
   grunt.initConfig({
     CONFIG: CONFIG,
@@ -33,11 +40,11 @@ module.exports = function(grunt){
       }
     },
     webpack: {
-      'slider-to-label': {
-        entry: "./js/slider-to-label.js",
+      'all': {
+        entry: jsFilesMap,
         output: {
           path: "public",
-          filename: "slider-to-label.js"
+          filename: "[name]"
         },
         devtool: 'source-map',
         module: {
@@ -59,5 +66,5 @@ module.exports = function(grunt){
     }
   });
 
-  grunt.registerTask('default', ['clean','copy','sass']);
+  grunt.registerTask('default', ['clean','copy','sass','watch']);
 };
