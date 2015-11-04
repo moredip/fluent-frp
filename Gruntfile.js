@@ -49,7 +49,7 @@ module.exports = function(grunt){
         devtool: 'source-map',
         module: {
           loaders: [
-          { test: "./js/", loader: 'babel-loader' }
+          { test: /.js$/, loader: 'babel-loader' }
           ]
         }
       }
@@ -60,7 +60,7 @@ module.exports = function(grunt){
         atBegin: true
       },
       js: {
-        files: ['./js/*.js'],
+        files: ['./js/**/*.js'],
         tasks: ['webpack']
       }
     }
