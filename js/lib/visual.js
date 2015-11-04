@@ -21,19 +21,19 @@ const circleStyle = {fill:"#ddd",stroke:"#999", strokeWidth:"2px"},
       
 
 function findFullTimeRange(observables){
-  const timestamps = _.flatten( observables.map( (o)=> o.marbles.map( (m) => m.timestamp ) ) );
+  const timestamps = _.flatten( observables.map( (o)=> o.observations.map( (obs) => obs.timestamp ) ) );
   return [_.min(timestamps),_.max(timestamps)];
 }
 
-function renderMarble({marble,timescale}){
-  const cx = timescale(marble.timestamp);
+function renderMarble({observation,timescale}){
+  const cx = timescale(observation.timestamp);
   return <circle cx={cx} style={circleStyle} r={CIRCLE_RADIUS}></circle>;
 }
 
-function renderObservableLine({vertIndex,marbles,timescale}){
+function renderObservableLine({vertIndex,observable,timescale}){
   const vertOffset = (vertIndex*FULL_HEIGHT) + (FULL_HEIGHT/2) + VERT_PADDING
-  const circles = marbles.map( function(marble){
-    return renderMarble({marble,timescale});
+  const circles = observable.observations.map( function(observation){
+    return renderMarble({observation,timescale});
   });
   
   const transform = `translate(0,${vertOffset})`;
@@ -42,14 +42,14 @@ function renderObservableLine({vertIndex,marbles,timescale}){
   </g>;
 }
 
-export default function render(atom){
-  const timeRange = findFullTimeRange(atom.observables);
+export default function render(observables){
+  const timeRange = findFullTimeRange(_.values(observables));
   const timescale = d3.time.scale()
       .domain(timeRange)
       .range([HORZ_PADDING,FULL_WIDTH-HORZ_PADDING]);
 
-  const lines = atom.observables.map(function(observable,ix){
-    return renderObservableLine({marbles:observable.marbles,vertIndex:ix,timescale:timescale});
+  const lines = _.values(observables).map(function(observable,ix){
+    return renderObservableLine({observable:observable,vertIndex:ix,timescale:timescale});
   });
 
   return <section>

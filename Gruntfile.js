@@ -49,7 +49,11 @@ module.exports = function(grunt){
         devtool: 'source-map',
         module: {
           loaders: [
-          { test: /.js$/, loader: 'babel-loader' }
+            { 
+              test: /.js$/, 
+              include: [path.resolve(__dirname, 'js')],
+              loader: 'babel-loader' 
+            }
           ]
         }
       }
