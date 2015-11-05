@@ -11,7 +11,7 @@ function recordObservation(streamId,observation){
   observations.onNext({streamId,observation});
 }
 
-const animationFrames = Rx.Observable.interval(200,Rx.Scheduler.requestAnimationFrame);
+const animationFrames = Rx.Observable.interval(50,Rx.Scheduler.requestAnimationFrame);
 
 const obsState = observations.scan( function(observables,{streamId,observation}){
   const EMPTY_OBSERVABLE = Immutable.Map({observations:Immutable.List()})
@@ -34,7 +34,11 @@ const realizerStream = stateFrames.scan( function(realizer, atom){
 realizerStream.subscribe( function(){} )
 
 
-const stream = Rx.Observable.interval(1000).timestamp();
+//const tickStream = Rx.Observable.interval(1000).timestamp();
+
+const stream = Rx.Observable.fromEvent(document.getElementById('click-me'),'click')
+  .map(()=>'tap!')
+  .timestamp();
 
 //animationFrames.subscribe(function(s){
   //console.log('ANIMATION',s);
