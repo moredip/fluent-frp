@@ -11,6 +11,8 @@ function recordObservation(streamId,observation){
   observations.onNext({streamId,observation});
 }
 
+const animationFrames = Rx.Observable.interval(200,Rx.Scheduler.requestAnimationFrame);
+
 const obsState = observations.scan( function(observables,{streamId,observation}){
   const EMPTY_OBSERVABLE = Immutable.Map({observations:Immutable.List()})
 
@@ -19,16 +21,24 @@ const obsState = observations.scan( function(observables,{streamId,observation})
   });
 },Immutable.Map());
 
-const realizerStream = obsState.scan( function(realizer, atom){
+const stateFrames = animationFrames.withLatestFrom(obsState,(s1,s2)=> s2);
+
+const realizerStream = stateFrames.scan( function(realizer, atom){
   const newTree = renderMarbles(atom.toJSON());
   const nextRealizer = realizer(newTree);
   return nextRealizer;
 }, initialRealizer);
 
-// Need something to pull values through
-realizerStream.subscribe( (r)=> console.log( "REALIZER", r ) );
+// Need something to pull values through. 
+// TODO: How am I supposed to do this the Rx Way?
+realizerStream.subscribe( function(){} )
+
 
 const stream = Rx.Observable.interval(1000).timestamp();
+
+//animationFrames.subscribe(function(s){
+  //console.log('ANIMATION',s);
+//});
 
 //stream.subscribe(function(s){
   //console.log('STREAM',s);

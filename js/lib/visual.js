@@ -18,7 +18,7 @@ const circleStyle = {fill:"#ddd",stroke:"#999", strokeWidth:"2px"},
       FULL_HEIGHT = (CIRCLE_RADIUS*2) + (VERT_PADDING*2),
       FULL_WIDTH = 400,
       HORZ_PADDING = 40,
-      TIME_RANGE = 1000*6;
+      TIME_RANGE = 1000*7;
       
 
 function findFullTimeRange(observables){
@@ -27,12 +27,17 @@ function findFullTimeRange(observables){
 }
 
 function renderMarble({observation,timescale}){
-  const fadescale = timescale.copy().range([0,1])
   const x = timescale(observation.timestamp);
+
+  if( x < -100 ){
+    return undefined;
+  }
+
+  const fadescale = timescale.copy().range([0.2,1])
   const opacity = fadescale(observation.timestamp);
   const y = 0;
   const transform = `translate(${x},${y})`;
-  
+
   const TEXT_PROPS = { 'alignment-baseline': 'middle', 'text-anchor':'middle' };
   return <g transform={transform} opacity={opacity}>
     <circle style={circleStyle} r={CIRCLE_RADIUS}></circle>
@@ -44,9 +49,9 @@ function renderMarble({observation,timescale}){
 
 function renderObservableLine({vertIndex,observable,timescale}){
   const vertOffset = (vertIndex*FULL_HEIGHT) + (FULL_HEIGHT/2) + VERT_PADDING
-  const circles = observable.observations.map( function(observation){
+  const circles = _.compact( observable.observations.map( function(observation){
     return renderMarble({observation,timescale});
-  });
+  }));
   
   const transform = `translate(0,${vertOffset})`;
   return <g transform={transform}>
