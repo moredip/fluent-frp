@@ -5,7 +5,7 @@ import svg from 'virtual-dom/virtual-hyperscript/svg';
 
 /** @jsx jsxToHyperscriptAdapter */
 function jsxToHyperscriptAdapter(name,props,...children){
-  if( _.contains(['svg','g','circle'],name) ){
+  if( _.contains(['svg','g','circle','text','line'],name) ){
     return svg(name,props,children);
   }else{
     return h(name,props,children);
@@ -13,11 +13,12 @@ function jsxToHyperscriptAdapter(name,props,...children){
 }
 
 const circleStyle = {fill:"#ddd",stroke:"#999", strokeWidth:"2px"},
-      CIRCLE_RADIUS = 10,
+      CIRCLE_RADIUS = 20,
       VERT_PADDING = 8,
-      FULL_HEIGHT = (CIRCLE_RADIUS * 2) + (VERT_PADDING*2),
+      FULL_HEIGHT = (CIRCLE_RADIUS*2) + (VERT_PADDING*2),
       FULL_WIDTH = 400,
-      HORZ_PADDING = 20;
+      HORZ_PADDING = 40,
+      TIME_RANGE = 1000*6;
       
 
 function findFullTimeRange(observables){
@@ -26,8 +27,19 @@ function findFullTimeRange(observables){
 }
 
 function renderMarble({observation,timescale}){
-  const cx = timescale(observation.timestamp);
-  return <circle cx={cx} style={circleStyle} r={CIRCLE_RADIUS}></circle>;
+  const fadescale = timescale.copy().range([0,1])
+  const x = timescale(observation.timestamp);
+  const opacity = fadescale(observation.timestamp);
+  const y = 0;
+  const transform = `translate(${x},${y})`;
+  
+  const TEXT_PROPS = { 'alignment-baseline': 'middle', 'text-anchor':'middle' };
+  return <g transform={transform} opacity={opacity}>
+    <circle style={circleStyle} r={CIRCLE_RADIUS}></circle>
+    <text {...TEXT_PROPS}>
+      {observation.value}
+    </text>
+  </g>;
 }
 
 function renderObservableLine({vertIndex,observable,timescale}){
@@ -38,12 +50,15 @@ function renderObservableLine({vertIndex,observable,timescale}){
   
   const transform = `translate(0,${vertOffset})`;
   return <g transform={transform}>
+    <line class="marble-line" x1="0" y1={0} x2={FULL_WIDTH} y2={0}/>
     {circles}
   </g>;
 }
 
 export default function render(observables){
-  const timeRange = findFullTimeRange(_.values(observables));
+  // const timeRange = findFullTimeRange(_.values(observables));
+  const now = Date.now();
+  const timeRange = [now - TIME_RANGE,now];
   const timescale = d3.time.scale()
       .domain(timeRange)
       .range([HORZ_PADDING,FULL_WIDTH-HORZ_PADDING]);
@@ -54,7 +69,7 @@ export default function render(observables){
 
   return <section>
     <h1>MARBLES!</h1>
-    <svg height="100%" width="100%">
+    <svg class="marbles" height="100%" width="100%">
       {lines}
     </svg>
   </section>;
