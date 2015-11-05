@@ -12,7 +12,8 @@ function jsxToHyperscriptAdapter(name,props,...children){
   }
 }
 
-const circleStyle = {fill:"#ddd",stroke:"#999", strokeWidth:"2px"},
+const CIRCLE_STYLE = {fill:"#ddd",stroke:"#999", strokeWidth:"2px"},
+      MARBLE_TEXT_PROPS = { 'alignment-baseline': 'middle', 'text-anchor':'middle' },
       CIRCLE_RADIUS = 20,
       VERT_PADDING = 8,
       FULL_HEIGHT = (CIRCLE_RADIUS*2) + (VERT_PADDING*2),
@@ -35,28 +36,46 @@ function renderMarble({observation,timescale}){
 
   const fadescale = timescale.copy().range([0.2,1])
   const opacity = fadescale(observation.timestamp);
-  const y = 0;
-  const transform = `translate(${x},${y})`;
+  const transform = `translate(${x},0)`;
 
-  const TEXT_PROPS = { 'alignment-baseline': 'middle', 'text-anchor':'middle' };
-  return <g transform={transform} opacity={opacity}>
-    <circle style={circleStyle} r={CIRCLE_RADIUS}></circle>
-    <text {...TEXT_PROPS}>
+  return <g class="marble" transform={transform} opacity={opacity}>
+    <circle r={CIRCLE_RADIUS}></circle>
+    <text class="marble-text" {...MARBLE_TEXT_PROPS}>
       {observation.value}
     </text>
   </g>;
 }
 
+function renderLatestValueMarble(observation,xOffset){
+  const transform = `translate(${xOffset},0)`;
+
+  return <g class="marble curr-value" transform={transform}>
+    <circle r={CIRCLE_RADIUS}></circle>
+    <text {...MARBLE_TEXT_PROPS}>
+      {observation.value}
+    </text>
+  </g>;
+}
+
+function latestValueFrom(observable){
+  return _.last( observable.observations );
+}
+
 function renderObservableLine({vertIndex,observable,timescale}){
   const vertOffset = (vertIndex*FULL_HEIGHT) + (FULL_HEIGHT/2) + VERT_PADDING
-  const circles = _.compact( observable.observations.map( function(observation){
+  const marbles = _.compact( observable.observations.map( function(observation){
     return renderMarble({observation,timescale});
   }));
+  const latestValueMarble = renderLatestValueMarble( 
+      latestValueFrom(observable),
+      timescale.range()[1]
+      );
   
   const transform = `translate(0,${vertOffset})`;
-  return <g transform={transform}>
-    <line class="marble-line" x1="0" y1={0} x2={FULL_WIDTH} y2={0}/>
-    {circles}
+  return <g class="marble-stream" transform={transform}>
+    <line class="marble-line" x1="0" x2={FULL_WIDTH-HORZ_PADDING} y1="0" y2="0"/>
+    {latestValueMarble}
+    {marbles}
   </g>;
 }
 
@@ -73,8 +92,7 @@ export default function render(observables){
   });
 
   return <section>
-    <h1>MARBLES!</h1>
-    <svg class="marbles" height="100%" width="100%">
+    <svg height="100%" width="100%">
       {lines}
     </svg>
   </section>;

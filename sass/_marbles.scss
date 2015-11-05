@@ -13,21 +13,21 @@ $n: length($colors);
   }
 }
 
-svg.marbles .marble-line {
+.marble-line {
   stroke: #aaa;
   stroke-width: 1px;
 }
  
-svg.marbles .marble {
-  stroke-width: 4px;
+.marble {
+  stroke-width: 2px;
 }
 
-svg.marbles .marble text {
+.marble-text {
   fill: #222;
   stroke: none;
 }
 
-svg.marbles .curr-value.marble circle {
+.marble-stream .marble.curr-value circle {
   stroke: #aaa;
   fill: #eee;
 }

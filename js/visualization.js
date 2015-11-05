@@ -34,11 +34,12 @@ const realizerStream = stateFrames.scan( function(realizer, atom){
 realizerStream.subscribe( function(){} )
 
 
-//const tickStream = Rx.Observable.interval(1000).timestamp();
+const tickStream = Rx.Observable.interval(333);
 
-const stream = Rx.Observable.fromEvent(document.getElementById('click-me'),'click')
-  .map(()=>'tap!')
-  .timestamp();
+const clickStream = Rx.Observable.fromEvent(document.getElementById('click-me'),'click')
+  .map(()=>'tap!');
+
+const stream = tickStream;
 
 //animationFrames.subscribe(function(s){
   //console.log('ANIMATION',s);
@@ -56,6 +57,10 @@ const stream = Rx.Observable.fromEvent(document.getElementById('click-me'),'clic
   //console.log('OBS',o.toJSON());
 //});
 
-stream.subscribe( function(s){
-  recordObservation('a-stream',s);
+clickStream.timestamp().subscribe( function(s){
+  recordObservation('clicks',s);
+});
+
+tickStream.timestamp().subscribe( function(s){
+  recordObservation('ticks',s);
 });
