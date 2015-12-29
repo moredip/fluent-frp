@@ -30,11 +30,12 @@ function findFullTimeRange(observables){
 function renderMarble({observation,timescale}){
   const x = timescale(observation.timestamp);
 
+  // don't render things that are way off-scene
   if( x < -100 ){
     return undefined;
   }
 
-  const fadescale = timescale.copy().range([0.2,1])
+  const fadescale = timescale.copy().range([0.1,1])
   const opacity = fadescale(observation.timestamp);
   const transform = `translate(${x},0)`;
 
@@ -61,8 +62,8 @@ function latestValueFrom(observable){
   return _.last( observable.observations );
 }
 
-function renderObservableLine({vertIndex,observable,timescale}){
-  const vertOffset = (vertIndex*FULL_HEIGHT) + (FULL_HEIGHT/2) + VERT_PADDING
+function renderObservableLine({observable,timescale}){
+  const vertOffset = (FULL_HEIGHT/2);
   const marbles = _.compact( observable.observations.map( function(observation){
     return renderMarble({observation,timescale});
   }));
@@ -72,11 +73,16 @@ function renderObservableLine({vertIndex,observable,timescale}){
       );
   
   const transform = `translate(0,${vertOffset})`;
-  return <g class="marble-stream" transform={transform}>
+  return <section className="marble-stream">
+    <h2>{observable.streamName}</h2>
+    <svg class="marbles" width={FULL_WIDTH} height={FULL_HEIGHT}>
+    <g transform={transform}>
     <line class="marble-line" x1="0" x2={FULL_WIDTH-HORZ_PADDING} y1="0" y2="0"/>
     {latestValueMarble}
     {marbles}
-  </g>;
+  </g>
+  </svg>
+  </section>;
 }
 
 export default function render(observables){
@@ -87,13 +93,11 @@ export default function render(observables){
       .domain(timeRange)
       .range([HORZ_PADDING,FULL_WIDTH-HORZ_PADDING]);
 
-  const lines = _.values(observables).map(function(observable,ix){
-    return renderObservableLine({observable:observable,vertIndex:ix,timescale:timescale});
+  const lines = _.values(observables).map(function(observable){
+    return renderObservableLine({observable:observable,timescale:timescale});
   });
 
-  return <section>
-    <svg height="100%" width="100%">
+  return <section className="stream-visualizations">
       {lines}
-    </svg>
-  </section>;
+    </section>;
 }

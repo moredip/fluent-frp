@@ -14,7 +14,7 @@ function recordObservation(streamId,observation){
 const animationFrames = Rx.Observable.interval(50,Rx.Scheduler.requestAnimationFrame);
 
 const obsState = observations.scan( function(observables,{streamId,observation}){
-  const EMPTY_OBSERVABLE = Immutable.Map({observations:Immutable.List()})
+  const EMPTY_OBSERVABLE = Immutable.Map({streamName:streamId,observations:Immutable.List()})
 
   return observables.update( streamId, EMPTY_OBSERVABLE, function(observable){
     return observable.update('observations', (obs)=> obs.push(observation));
@@ -31,7 +31,7 @@ const realizerStream = stateFrames.scan( function(realizer, atom){
 
 // Need something to pull values through. 
 // TODO: How am I supposed to do this the Rx Way?
-realizerStream.subscribe( function(){} )
+realizerStream.subscribe( ()=>{} )
 
 
 const tickStream = Rx.Observable.interval(333);

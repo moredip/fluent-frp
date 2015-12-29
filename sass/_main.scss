@@ -23,12 +23,8 @@ body > article {
 }
 
 .stream-visualizations {
-  h1 {
-    padding: 0.5em 0 0.5em $left-gutter;
-    background: darken($streamyBlue, 35%);
-    color: $streamyBlue;
-  }
-  margin-top: 4rem;
+  margin-top: 15px;
+  padding: 10px;
   background-color: $streamyBlue;
 }
 
