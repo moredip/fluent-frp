@@ -22,11 +22,6 @@ const CIRCLE_STYLE = {fill:"#ddd",stroke:"#999", strokeWidth:"2px"},
       TIME_RANGE = 1000*7;
       
 
-function findFullTimeRange(observables){
-  const timestamps = _.flatten( observables.map( (o)=> o.observations.map( (obs) => obs.timestamp ) ) );
-  return [_.min(timestamps),_.max(timestamps)];
-}
-
 function renderMarble({observation,timescale}){
   const x = timescale(observation.timestamp);
 
@@ -86,7 +81,6 @@ function renderObservableLine({observable,timescale}){
 }
 
 export default function render(observables){
-  // const timeRange = findFullTimeRange(_.values(observables));
   const now = Date.now();
   const timeRange = [now - TIME_RANGE,now];
   const timescale = d3.time.scale()

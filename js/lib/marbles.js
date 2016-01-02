@@ -10,15 +10,15 @@ export default function createMarbleDisplay(containerElement){
   let observations = new Rx.Subject(); 
 
   function recordObservation(streamId,observation){
-    observations.onNext({streamId,observation});
+    const timestamp = Date.now();
+    observations.onNext({streamId,observation,timestamp});
   }
 
-
-  const obsState = observations.scan( function(observables,{streamId,observation}){
+  const obsState = observations.scan( function(observables,{streamId,observation,timestamp}){
     const EMPTY_OBSERVABLE = Immutable.Map({streamName:streamId,observations:Immutable.List()})
 
     return observables.update( streamId, EMPTY_OBSERVABLE, function(observable){
-      return observable.update('observations', (obs)=> obs.push(observation));
+      return observable.update('observations', (obs)=> obs.push({timestamp,value:observation}));
     });
   },Immutable.Map());
 
