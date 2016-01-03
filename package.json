@@ -9,16 +9,17 @@
     "virtual-dom": "^2.1.1"
   },
   "devDependencies": {
-    "node-sass": "^3.4.1",
     "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-release": "^0.13.0",
     "grunt-sass": "^1.1.0",
     "grunt-webpack": "^1.0.11",
     "load-grunt-tasks": "^3.3.0",
+    "node-sass": "^3.4.1",
     "sass-loader": "^3.1.1",
     "underscore": "^1.8.3",
     "webpack": "^1.12.2",
