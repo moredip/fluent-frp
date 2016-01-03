@@ -3,33 +3,37 @@ import Immutable from 'immutable';
 import createInitialRealizer from './virtualDomRealizer';
 import renderMarbles from './visual';
 
-export function createMarbleDisplay(containerElement){
+function observationUpdater(appState,{streamId,observation,timestamp}){
+  const newObservable = Immutable.Map({streamName:streamId,observations:Immutable.List()})
 
-  const initialRealizer = createInitialRealizer(containerElement);
+  return appState.update( streamId, newObservable, function(observable){
+    return observable.update('observations', (obs)=> obs.push({timestamp,value:observation}));
+  });
+}
+
+function realizeAppState( realizer, appState ){
+  const newTree = renderMarbles(appState.toJSON());
+  const nextRealizer = realizer(newTree);
+  return nextRealizer;
+}
+
+export function createMarbleDisplay(containerElement){
 
   let observations = new Rx.Subject(); 
 
   function recordObservation(streamId,observation){
-    const timestamp = Date.now();
-    observations.onNext({streamId,observation,timestamp});
+    observations.onNext({streamId,observation,timestamp:Date.now()});
   }
 
-  const obsState = observations.scan( function(observables,{streamId,observation,timestamp}){
-    const EMPTY_OBSERVABLE = Immutable.Map({streamName:streamId,observations:Immutable.List()})
-
-    return observables.update( streamId, EMPTY_OBSERVABLE, function(observable){
-      return observable.update('observations', (obs)=> obs.push({timestamp,value:observation}));
-    });
-  },Immutable.Map());
+  const initialAppState = Immutable.Map();
+  const appStates = observations.scan( observationUpdater, initialAppState );
 
   const animationFrames = Rx.Observable.interval(50,Rx.Scheduler.requestAnimationFrame);
-  const stateFrames = animationFrames.withLatestFrom(obsState,(s1,s2)=> s2);
+  const stateFrames = animationFrames.withLatestFrom(appStates,(s1,s2)=> s2);
 
-  const realizerStream = stateFrames.scan( function(realizer, atom){
-    const newTree = renderMarbles(atom.toJSON());
-    const nextRealizer = realizer(newTree);
-    return nextRealizer;
-  }, initialRealizer);
+
+  const initialRealizer = createInitialRealizer(containerElement);
+  const realizerStream = stateFrames.scan( realizeAppState, initialRealizer );
 
   // Need something to pull values through. 
   // TODO: How am I supposed to do this the Rx Way?
