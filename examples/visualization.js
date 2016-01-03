@@ -1,7 +1,4 @@
-import Rx from 'rx';
-import createMarbleDisplay from './lib/marbles';
-
-const recordObservation = createMarbleDisplay(document.getElementById('marbles-container'));
+const recordObservation = Marbelous.createMarbleDisplay(document.getElementById('marbles-container'));
 
 function visualize(name,observable) {
   observable.subscribe( e => recordObservation(name,e) );

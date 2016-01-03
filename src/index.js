@@ -1,9 +1,9 @@
-import Rx from 'rx';
+import Rx from 'rx/dist/rx.lite';
 import Immutable from 'immutable';
 import createInitialRealizer from './virtualDomRealizer';
 import renderMarbles from './visual';
 
-export default function createMarbleDisplay(containerElement){
+export function createMarbleDisplay(containerElement){
 
   const initialRealizer = createInitialRealizer(containerElement);
 

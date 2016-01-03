@@ -9,10 +9,6 @@
     "virtual-dom": "^2.1.1"
   },
   "devDependencies": {
-    "jquery": "^2.1.4",
-    "bourbon": "^4.2.6",
-    "node-bourbon": "^4.2.3",
-    "node-neat": "^1.7.2",
     "node-sass": "^3.4.1",
     "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",

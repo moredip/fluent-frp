@@ -1,62 +1,38 @@
+var webpack = require('webpack');
 var _ = require('underscore');
 var path = require('path');
+var webpackConfig = require("./webpack.config.js");
 
 module.exports = function(grunt){
 
   require('load-grunt-tasks')(grunt);
 
-  var CONFIG = {
-    buildDir: './public'
-  };
-
-  var jsFilesMap = _.object( _.map( grunt.file.expand("./js/*.js"), function(jsFile){
-    return [ path.basename(jsFile), jsFile ];
-  }));
-
   grunt.initConfig({
-    CONFIG: CONFIG,
-    copy: {
-      html: {
-        expand: true,
-        cwd: './html',
-        src: '*.html',
-        dest: CONFIG.buildDir
-      },
-      js: {
-        files: {
-          '<%=CONFIG.buildDir%>/jquery.js': 'node_modules/jquery/dist/jquery.js',
-        }
-      }
-    },
-    clean: [CONFIG.buildDir],
+    clean: ['dist'],
     sass: {
-      options: {
-        includePaths: require('node-bourbon').includePaths.concat( require('node-neat').includePaths )
-      },
       dist: {
         files: {
-          '<%=CONFIG.buildDir%>/app.css': 'sass/app.scss'
+          'dist/marbelous.css': 'sass/marbelous.scss'
         }
       }
     },
     webpack: {
-      'all': {
-        entry: jsFilesMap,
+      options: webpackConfig,
+      build: {
         output: {
-          path: "public",
-          filename: "[name]"
+          filename: "marbelous.min.js"
         },
-        devtool: 'source-map',
-        module: {
-          loaders: [
-            { 
-              test: /.js$/, 
-              include: [path.resolve(__dirname, 'js')],
-              loader: 'babel-loader' 
-            }
-          ]
+				plugins: webpackConfig.plugins.concat(
+					new webpack.optimize.UglifyJsPlugin()
+				)
+			},
+			"build-dev": {
+				devtool: "sourcemap",
+				debug: true,
+        output: {
+          filename: "marbelous.js"
         }
-      }
+			}
     },
     watch: {
       options: {
@@ -64,11 +40,15 @@ module.exports = function(grunt){
         atBegin: true
       },
       js: {
-        files: ['./js/**/*.js'],
-        tasks: ['webpack']
+        files: ['./src/**/*.js'],
+        tasks: ['webpack:build-dev']
+      },
+      sass: {
+        files: ['./sass/**/*.scss'],
+        tasks: ['sass']
       }
     }
   });
 
-  grunt.registerTask('default', ['clean','copy','sass','watch']);
+  grunt.registerTask('default', ['clean','sass','watch']);
 };

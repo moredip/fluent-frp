@@ -7,33 +7,33 @@ $n: length($colors);
 
 @for $i from 1 through $n {
   $color: nth($colors,$i);
-  .marble-stream:nth-child(#{$n}n+#{$i}) .marble circle {
+  .marbelous-stream:nth-child(#{$n}n+#{$i}) .marbelous-marble {
     fill: $color;
     stroke: darken($color,20%);
   }
 }
 
-.marble-stream h2 {
+.marbelous-stream__name {
   margin: 0 0 -15px 0;
   color: #444;
   font-size: 14pt;
 }
 
-.marble-line {
+.marbelous-stream__line {
   stroke: #aaa;
   stroke-width: 1px;
 }
  
-.marble {
+.marbelous-marble {
   stroke-width: 2px;
+
+  &.-curr-value {
+    stroke: #aaa !important;
+    fill: #eee !important;
+  }
 }
 
-.marble-text {
+.marbelous-marble__text {
   fill: #222;
   stroke: none;
-}
-
-.marble-stream .marble.curr-value circle {
-  stroke: #aaa;
-  fill: #eee;
 }

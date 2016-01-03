@@ -34,9 +34,9 @@ function renderMarble({observation,timescale}){
   const opacity = fadescale(observation.timestamp);
   const transform = `translate(${x},0)`;
 
-  return <g class="marble" transform={transform} opacity={opacity}>
-    <circle r={CIRCLE_RADIUS}></circle>
-    <text class="marble-text" {...MARBLE_TEXT_PROPS}>
+  return <g transform={transform} opacity={opacity}>
+    <circle class="marbelous-marble" r={CIRCLE_RADIUS}></circle>
+    <text class="marbelous-marble__text" {...MARBLE_TEXT_PROPS}>
       {observation.value}
     </text>
   </g>;
@@ -45,9 +45,9 @@ function renderMarble({observation,timescale}){
 function renderLatestValueMarble(observation,xOffset){
   const transform = `translate(${xOffset},0)`;
 
-  return <g class="marble curr-value" transform={transform}>
-    <circle r={CIRCLE_RADIUS}></circle>
-    <text {...MARBLE_TEXT_PROPS}>
+  return <g transform={transform}>
+    <circle class="marbelous-marble -curr-value" r={CIRCLE_RADIUS}></circle>
+    <text class="marbelous-marble__text" {...MARBLE_TEXT_PROPS}>
       {observation.value}
     </text>
   </g>;
@@ -68,11 +68,11 @@ function renderObservableLine({observable,timescale}){
       );
   
   const transform = `translate(0,${vertOffset})`;
-  return <section className="marble-stream">
-    <h2>{observable.streamName}</h2>
-    <svg class="marbles" width={FULL_WIDTH} height={FULL_HEIGHT}>
+  return <section className="marbelous-stream">
+    <h2 className="marbelous-stream__name">{observable.streamName}</h2>
+    <svg width={FULL_WIDTH} height={FULL_HEIGHT}>
     <g transform={transform}>
-    <line class="marble-line" x1="0" x2={FULL_WIDTH-HORZ_PADDING} y1="0" y2="0"/>
+    <line class="marbelous-stream__line" x1="0" x2={FULL_WIDTH-HORZ_PADDING} y1="0" y2="0"/>
     {latestValueMarble}
     {marbles}
   </g>
@@ -91,7 +91,7 @@ export default function render(observables){
     return renderObservableLine({observable:observable,timescale:timescale});
   });
 
-  return <section className="stream-visualizations">
+  return <section>
       {lines}
     </section>;
 }
