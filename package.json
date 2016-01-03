@@ -1,6 +1,6 @@
 {
   "name": "marbelous",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "live visualization of Observables",
   "dependencies": {
     "d3": "^3.5.6",
