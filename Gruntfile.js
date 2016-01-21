@@ -15,9 +15,11 @@ module.exports = function(grunt){
         src: '*.html',
         dest: CONFIG.buildDir
       },
-      js: {
+      vendor: {
         files: {
           '<%=CONFIG.buildDir%>/jquery.js': 'node_modules/jquery/dist/jquery.js',
+          '<%=CONFIG.buildDir%>/marbelous.js': 'node_modules/marbelous/dist/marbelous.js',
+          '<%=CONFIG.buildDir%>/marbelous.css': 'node_modules/marbelous/dist/marbelous.css'
         }
       }
     },
@@ -42,7 +44,13 @@ module.exports = function(grunt){
         devtool: 'source-map',
         module: {
           loaders: [
-          { test: "./js/", loader: 'babel-loader' }
+            { 
+              test: "./js",
+              loader: 'babel',
+              query: {
+                presets: ['es2015']
+              }
+            }
           ]
         }
       }
