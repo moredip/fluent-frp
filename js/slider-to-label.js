@@ -21,6 +21,7 @@ const $slider = $('.slider input'),
       $label = $('.slider .label');
 
 const values = observeEventValues($slider,'input')
+  .startWith($slider.val())
   .map( (v)=> parseFloat(v) );
 
 visualize('slider values',values);
