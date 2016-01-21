@@ -55,6 +55,10 @@ module.exports = function(grunt){
       js: {
         files: ['./js/*.js'],
         tasks: ['webpack']
+      },
+      html: {
+        files: ['./html/*.html'],
+        tasks: ['copy']
       }
     }
   });
