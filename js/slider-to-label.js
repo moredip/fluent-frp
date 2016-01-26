@@ -5,35 +5,23 @@ function visualize(name,observable) {
   observable.subscribe( e => recordObservation(name,e) );
 }
 
-function observeEventValues($el,eventName){
-  return Rx.Observable.fromEvent($el, eventName)
-    .map( (e)=> e.target.value );
-}
-
-function updateSpread(spread,curr){
-  return {
-    max: Math.max(curr,spread.max),
-    min: Math.min(curr,spread.min)
-  };
+function valueFromEvent(e){
+  return e.target.value;
 }
 
 const $slider = $('.slider input'),
       $label = $('.slider .label');
 
-const values = observeEventValues($slider,'input')
-  .startWith($slider.val())
-  .map( (v)=> parseFloat(v) );
+const values = Rx.Observable.fromEvent($slider,'input',valueFromEvent);
+visualize('values',values);
 
-visualize('slider values',values);
+const floats = values.map( (v) => parseFloat(v) );
+visualize('floats',floats);
 
-const min = values.scan( (min,curr)=> Math.min(min,curr) ).distinctUntilChanged();
-const max = values.scan( (max,curr)=> Math.max(max,curr) ).distinctUntilChanged();
-const spread = Rx.Observable.combineLatest(min,max, (min,max)=> [min,max]);
+const percentages = floats.map( (f)=> Math.round(f*100) );
+visualize('percentages',percentages);
 
-visualize('min',min);
-visualize('max',max);
+const formatted = percentages.map( (p)=> `${p}%` );
+visualize('formatted',formatted);
 
-values
-  .map( (v)=> Math.round(v*100) )
-  .map( (v)=> `${v}%` )
-  .subscribe( s => $label.text(s) );
+formatted.subscribe( f => $label.text(f) );
