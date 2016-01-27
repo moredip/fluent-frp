@@ -35,11 +35,14 @@ module.exports = function(grunt){
       }
     },
     webpack: {
-      'slider-to-label': {
-        entry: "./js/slider-to-label.js",
+      'js': {
+        entry: {
+          'slider-to-label': './js/slider-to-label.js',
+          'summing-two-sliders': './js/summing-two-sliders.js'
+        },
         output: {
           path: "public",
-          filename: "slider-to-label.js"
+          filename: "[name].js"
         },
         devtool: 'source-map',
         module: {
