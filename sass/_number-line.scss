@@ -1,15 +1,26 @@
 .number-line {
   margin-left: 20px;
-  margin-top: 20px;
 }
 
 .number-line__number-line {
-  stroke: #aaa;
+  stroke: #ccc;
   stroke-width: 3px; 
 }
 
-.number-line__marker {
+.number-line__range-line {
+  stroke: #333;
+  stroke-width: 3px; 
+}
+
+.number-line__range-marker {
   stroke: #333;
   stroke-width: 2px; 
+  fill: none;
 }
+
+.number-line__curr-marker {
+  stroke: #e41a1c;
+  stroke-width: 2px; 
+}
+
 

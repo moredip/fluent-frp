@@ -26,7 +26,10 @@ function valueFromEvent(e){
 const $slider = $('.slider input'),
       $label = $('.slider .label');
 
-const numbers = Rx.Observable.fromEvent($slider,'input',valueFromEvent).map( parseFloat );
+const numbers = Rx.Observable.fromEvent($slider,'input',valueFromEvent)
+  .startWith($slider.val())
+  .map( parseFloat )
+
 numbers.visualize( 'numbers' );
 
 numbers.subscribe( f => $label.text(f) );
@@ -43,6 +46,6 @@ const maxes = numbers
 mins.visualize( 'mins' );
 maxes.visualize( 'maxes' );
 
-const minsAndMaxes = Rx.Observable.combineLatest( mins, maxes, (min,max)=> { return {min,max} } );
+const minsAndMaxes = Rx.Observable.combineLatest( numbers, mins, maxes, (number,min,max)=> { return {number,min,max} } );
 
 minsAndMaxes.subscribe( renderNumberLine );
