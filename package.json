@@ -9,6 +9,8 @@
     "node-bourbon": "^4.2.3",
     "node-neat": "^1.7.2",
     "node-sass": "^3.4.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
     "rxjs": "^5.0.0-beta.1"
   },
   "devDependencies": {

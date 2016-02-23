@@ -38,6 +38,7 @@ module.exports = function(grunt){
       'js': {
         entry: {
           'slider-to-label': './js/slider-to-label.js',
+          'min-max': './js/min-max.js',
           'summing-two-sliders': './js/summing-two-sliders.js'
         },
         output: {
@@ -51,7 +52,7 @@ module.exports = function(grunt){
               test: "./js",
               loader: 'babel',
               query: {
-                presets: ['es2015']
+                presets: ['es2015','react']
               }
             }
           ]
@@ -64,12 +65,16 @@ module.exports = function(grunt){
         atBegin: true
       },
       js: {
-        files: ['./js/*.js'],
+        files: ['./js/**/*.js','./js/**/*.jsx'],
         tasks: ['webpack']
       },
       html: {
         files: ['./html/*.html'],
         tasks: ['copy']
+      },
+      sass: {
+        files: ['./sass/**/*.scss'],
+        tasks: ['sass']
       }
     }
   });
