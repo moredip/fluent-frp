@@ -1,7 +1,8 @@
-import Rx from 'rxjs/Rx';
 import NumberLine from './min-max/number-line.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+const Rx = Marbelous.Rx;
 
 const numberLineContainer = document.getElementById('number-line');
 
@@ -15,7 +16,7 @@ function renderNumberLine(props){
 const recordObservation = Marbelous.createMarbleDisplay(document.getElementById('marbles-container'));
 
 Rx.Observable.prototype.visualize = function(name){
-  this.subscribe( e => recordObservation(name,e) );
+  this.inspectTime(60).subscribe( e => recordObservation(name,e) );
   return this;
 }
 
@@ -47,5 +48,6 @@ mins.visualize( 'mins' );
 maxes.visualize( 'maxes' );
 
 const minsAndMaxes = Rx.Observable.combineLatest( numbers, mins, maxes, (number,min,max)=> { return {number,min,max} } );
+minsAndMaxes.visualize('number line state');
 
 minsAndMaxes.subscribe( renderNumberLine );

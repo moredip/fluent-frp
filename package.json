@@ -5,7 +5,7 @@
   "dependencies": {
     "bourbon": "^4.2.6",
     "jquery": "^2.1.4",
-    "marbelous": "^1.0.4",
+    "marbelous": "^1.0.5",
     "node-bourbon": "^4.2.3",
     "node-neat": "^1.7.2",
     "node-sass": "^3.4.1",
