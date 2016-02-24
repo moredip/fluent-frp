@@ -31,9 +31,9 @@ function renderMinMaxMarker(x,pathDesc){
 
 export default function renderNumberLine(props){
   return (
-    <svg width={`${FULL_WIDTH}px`} height="100px">
-      <g tranform="translate(0,10)">
-        <line className="number-line__number-line" x1="0" y1="20" x2="100%" y2="20"></line>
+    <svg width={`${FULL_WIDTH+20}px`} height="100px">
+      <g transform="translate(10,10)">
+        <line className="number-line__number-line" x1="0" y1="20" x2={FULL_WIDTH} y2="20"></line>
         <line className="number-line__range-line" 
           x1={scaleX(props.min)} y1="20" 
           x2={scaleX(props.max)} y2="20"></line>
