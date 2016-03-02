@@ -48,6 +48,7 @@ mins.visualize( 'mins' );
 maxes.visualize( 'maxes' );
 
 const minsAndMaxes = Rx.Observable.combineLatest( numbers, mins, maxes, (number,min,max)=> { return {number,min,max} } );
-minsAndMaxes.visualize('number line state');
+
+minsAndMaxes.map( ({min,max})=> [min,max] ).visualize('number line state');
 
 minsAndMaxes.subscribe( renderNumberLine );

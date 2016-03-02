@@ -16,3 +16,12 @@ const $sliderA = $('.slider.a input'),
       $labelA = $('.slider.a .label'),
       $labelB = $('.slider.b .label'),
       $labelSummed = $('.sum .label');
+
+const valuesA = Rx.Observable.fromEvent($sliderA,'input',valueFromEvent).map( parseFloat );
+valuesA.visualize('values A');
+
+const valuesB = Rx.Observable.fromEvent($sliderB,'input',valueFromEvent).map( parseFloat );
+valuesB.visualize('values B');
+
+valuesA.subscribe( (v) => $labelA.text(v) );
+valuesB.subscribe( (v) => $labelB.text(v) );
