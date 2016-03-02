@@ -17,10 +17,10 @@ const $sliderA = $('.slider.a input'),
       $labelB = $('.slider.b .label'),
       $labelSummed = $('.sum .label');
 
-const valuesA = Rx.Observable.fromEvent($sliderA,'input',valueFromEvent).map( parseFloat );
+const valuesA = Rx.Observable.fromEvent($sliderA,'input',valueFromEvent);
 valuesA.visualize('values A');
 
-const valuesB = Rx.Observable.fromEvent($sliderB,'input',valueFromEvent).map( parseFloat );
+const valuesB = Rx.Observable.fromEvent($sliderB,'input',valueFromEvent);
 valuesB.visualize('values B');
 
 valuesA.subscribe( (v) => $labelA.text(v) );
