@@ -39,6 +39,7 @@ module.exports = function(grunt){
         entry: {
           'slider-to-label': './js/slider-to-label.js',
           'min-max': './js/min-max.js',
+          '_min-max': './js/_min-max.js',
           'summing-two-sliders': './js/summing-two-sliders.js'
         },
         output: {
