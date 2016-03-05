@@ -1,11 +1,6 @@
 import Rx from 'rxjs/Rx';
-
-const recordObservation = Marbelous.createMarbleDisplay(document.getElementById('marbles-container'));
-
-Rx.Observable.prototype.visualize = function(name){
-  this.subscribe( e => recordObservation(name,e) );
-  return this;
-}
+import setupMarbelous from './setup-marbelous';
+setupMarbelous(Rx);
 
 function valueFromEvent(e){
   return e.target.value;
