@@ -33,6 +33,8 @@ export default function renderNumberLine(props){
   return (
     <section className="number-line">
       <h1 className="number-line__title">range:</h1>
+      <div>min: {props.min}</div>
+      <div>max: {props.max}</div>
       <svg width={`${FULL_WIDTH+20}px`} height="100px">
         <g transform="translate(10,10)">
           <line className="number-line__number-line" x1="0" y1="20" x2={FULL_WIDTH} y2="20"></line>
