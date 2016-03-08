@@ -12,11 +12,11 @@ const $sliderA = $('.slider.a input'),
       $labelB = $('.slider.b .label'),
       $labelSummed = $('.sum .label');
 
-const valuesA = Rx.Observable.fromEvent($sliderA,'input',valueFromEvent);
-valuesA.visualize('values A');
+const valueA$ = Rx.Observable.fromEvent($sliderA,'input',valueFromEvent);
+valueA$.visualize('value A');
 
-const valuesB = Rx.Observable.fromEvent($sliderB,'input',valueFromEvent);
-valuesB.visualize('values B');
+const valueB$ = Rx.Observable.fromEvent($sliderB,'input',valueFromEvent);
+valueB$.visualize('value B');
 
-valuesA.subscribe( (v) => $labelA.text(v) );
-valuesB.subscribe( (v) => $labelB.text(v) );
+valueA$.subscribe( (v) => $labelA.text(v) );
+valueB$.subscribe( (v) => $labelB.text(v) );
