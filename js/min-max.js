@@ -43,7 +43,7 @@ number$.subscribe( f => $label.text(f) );
 
 
 
-//const viewState = Rx.Observable.combineLatest( numbers, min$, max$, (number,min,max)=> { return {number,min,max} } );
+//const viewState = Rx.Observable.combineLatest( number$, min$, max$, (number,min,max)=> { return {number,min,max} } );
 //viewState.visualize('view state');
 //viewState.subscribe( (vs)=> console.log("view state", vs) );
 //viewState.subscribe( renderNumberLine );
